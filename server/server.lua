@@ -1,6 +1,3 @@
-QBCore = exports['qb-core']:GetCoreObject()
--- PSCore = exports['ps-core']:GetCoreObject()
-
 local dbloaded = false
 MySQL.ready(function()
     MySQL.query('SELECT * FROM properties', {}, function(result)
@@ -76,7 +73,7 @@ AddEventHandler("ps-housing:server:registerProperty", function (propertyData, pr
     TriggerClientEvent("ps-housing:client:addProperty", -1, propertyData)
 
     if propertyData.apartment and not preventEnter then
-        local player = QBCore.Functions.GetPlayerByCitizenId(propertyData.owner)
+        local player = exports.qbx_core:GetPlayerByCitizenId(propertyData.owner)
         local src = player.PlayerData.source
 
         local property = Property.Get(id)
@@ -111,7 +108,7 @@ lib.callback.register("ps-housing:cb:GetOwnedApartment", function(source, cid)
         return nil
     else
         local src = source
-        local Player = QBCore.Functions.GetPlayer(src)
+        local Player = exports.qbx_core:GetPlayer(src)
         local result = MySQL.query.await('SELECT * FROM properties WHERE owner_citizenid = ? AND apartment IS NOT NULL AND apartment <> ""', { Player.PlayerData.citizenid })
         if result[1] ~= nil then
             return result[1]
@@ -132,7 +129,7 @@ AddEventHandler("onResourceStart", function(resourceName) -- Used for when the r
         while not dbloaded do
             Wait(100)
         end
-        TriggerClientEvent('ps-housing:client:initialiseProperties', -1, PropertiesTable)
+        -- TriggerClientEvent('ps-housing:client:initialiseProperties', -1, PropertiesTable)
 	end 
 end)
 
@@ -232,7 +229,7 @@ AddEventHandler("ps-housing:server:addTenantToApartment", function (data)
         if not newApartment then return end
 
         local citizenid = GetCitizenid(targetSrc, realtorSrc)
-        local targetToAdd = QBCore.Functions.GetPlayerByCitizenId(citizenid).PlayerData
+        local targetToAdd = exports.qbx_core:GetPlayerByCitizenId(citizenid).PlayerData
         local propertyData = {
             owner = targetCitizenid,
             description = string.format("This is %s's apartment in %s", targetToAdd.charinfo.firstname .. " " .. targetToAdd.charinfo.lastname, apartment.label),
@@ -259,7 +256,7 @@ AddEventHandler("ps-housing:server:addTenantToApartment", function (data)
     property:UpdateApartment(data)
 
     local citizenid = GetCitizenid(targetSrc, realtorSrc)
-    local targetToAdd = QBCore.Functions.GetPlayerByCitizenId(citizenid)
+    local targetToAdd = exports.qbx_core:GetPlayerByCitizenId(citizenid)
     local targetPlayer = targetToAdd.PlayerData
 
     Framework[Config.Notify].Notify(targetSrc, "Your apartment is now at "..apartment, "success")
@@ -275,7 +272,7 @@ exports('IsOwner', function(src, property_id)
 end)
 
 function GetCitizenid(targetSrc, callerSrc)
-    local Player = QBCore.Functions.GetPlayer(tonumber(targetSrc))
+    local Player = exports.qbx_core:GetPlayer(tonumber(targetSrc))
     if not Player then
         Framework[Config.Notify].Notify(callerSrc, "Player not found.", "error")
         return
@@ -286,21 +283,21 @@ function GetCitizenid(targetSrc, callerSrc)
 end
 
 function GetCharName(src)
-    local Player = QBCore.Functions.GetPlayer(tonumber(src))
+    local Player = exports.qbx_core:GetPlayer(tonumber(src))
     if not Player then return end
     local PlayerData = Player.PlayerData
     return PlayerData.charinfo.firstname .. " " .. PlayerData.charinfo.lastname
 end
 
 function GetPlayerData(src)
-    local Player = QBCore.Functions.GetPlayer(tonumber(src))
+    local Player = exports.qbx_core:GetPlayer(tonumber(src))
     if not Player then return end
     local PlayerData = Player.PlayerData
     return PlayerData
 end
 
 function GetPlayer(src)
-    local Player = QBCore.Functions.GetPlayer(tonumber(src))
+    local Player = exports.qbx_core:GetPlayer(tonumber(src))
     if not Player then return end
     return Player
 end

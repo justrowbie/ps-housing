@@ -452,7 +452,7 @@ Modeler = {
             totalPrice = totalPrice + v.price
         end
 
-        PlayerData = QBCore.Functions.GetPlayerData()
+        PlayerData = QBX.PlayerData
         if PlayerData.money.cash < totalPrice and PlayerData.money.bank < totalPrice then
 	    Framework[Config.Notify].Notify("You don't have enough money!", "error")
             return

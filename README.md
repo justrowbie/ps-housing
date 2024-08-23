@@ -85,7 +85,7 @@ https://github.com/complexza/ps-housing/assets/74205343/0ff26e7f-1341-45fc-8fc6-
 RegisterNetEvent('qb-multicharacter:server:loadUserData', function(cData)
     local src = source
     if QBCore.Player.Login(src, cData.citizenid) then
-        local Player = QBCore.Functions.GetPlayer(src)
+        local Player = exports.qbx_core:GetPlayer(src)
         local Name = Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname
         repeat
             Wait(10)
@@ -117,7 +117,7 @@ RegisterNetEvent('qb-multicharacter:server:createCharacter', function(data)
         print('^2[qb-core]^7 '..GetPlayerName(src)..' has succesfully loaded!')
         QBCore.Commands.Refresh(src)
         TriggerClientEvent("qb-multicharacter:client:closeNUI", src)
-        newData.citizenid = QBCore.Functions.GetPlayer(src).PlayerData.citizenid
+        newData.citizenid = exports.qbx_core:GetPlayer(src).PlayerData.citizenid
         TriggerClientEvent('ps-housing:client:setupSpawnUI', src, newData)
         GiveStarterItems(src)
     end
@@ -138,7 +138,7 @@ RegisterNetEvent('qb-multicharacter:client:spawnLastLocation', function(coords, 
     SetEntityHeading(ped, coords.w)
     FreezeEntityPosition(ped, false)
     SetEntityVisible(ped, true)
-    local PlayerData = QBCore.Functions.GetPlayerData()
+    local PlayerData = QBX.PlayerData
     local insideMeta = PlayerData.metadata["inside"]
     DoScreenFadeOut(500)
     if insideMeta.propertyId then
@@ -224,11 +224,11 @@ RegisterNUICallback('spawnplayer', function(data, cb)
     local location = tostring(data.spawnloc)
     local type = tostring(data.typeLoc)
     local ped = PlayerPedId()
-    local PlayerData = QBCore.Functions.GetPlayerData()
+    local PlayerData = QBX.PlayerData
     local insideMeta = PlayerData.metadata["inside"]
     if type == "current" then
         PreSpawnPlayer()
-        QBCore.Functions.GetPlayerData(function(pd)
+        exports.qbx_core:GetPlayerData(function(pd)
             ped = PlayerPedId()
             SetEntityCoords(ped, pd.position.x, pd.position.y, pd.position.z)
             SetEntityHeading(ped, pd.position.a)

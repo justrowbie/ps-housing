@@ -23,7 +23,7 @@ if IsDuplicityVersion() then
 
     function Framework.qb.Notify(src, message, type)
         type = type == "info" and "primary" or type
-        TriggerClientEvent('QBCore:Notify', src, message, type)
+        exports.qbx_core:Notify(src, message, type)
     end
 
     function Framework.ox.RegisterInventory(stash, label, stashConfig)
@@ -62,7 +62,7 @@ Framework.qb = {
 
     Notify = function(message, type)
         type = type == "info" and "primary" or type
-        TriggerEvent('QBCore:Notify', message, type)
+        exports.qbx_core:Notify(message, type)
     end,
 
     AddEntrance = function(coords, size, heading, propertyId, enter, raid, showcase, showData, targetName)

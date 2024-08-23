@@ -1,8 +1,8 @@
 fx_version 'cerulean'
 
-game "gta5"
+game 'gta5'
 
-author "Xirvin#0985 and Project Sloth"
+author 'Xirvin#0985 and Project Sloth'
 version '1.2.2'
 
 repository 'Project-Sloth/ps-housing'
@@ -15,11 +15,13 @@ dependency 'fivem-freecam'
 
 shared_script {
   '@ox_lib/init.lua',
-  "shared/config.lua",
-  "shared/framework.lua",
+  '@qbx_core/modules/lib.lua',
+  'shared/config.lua',
+  'shared/framework.lua',
   }
 
 client_script {
+  '@qbx_core/modules/playerdata.lua',
   'client/shell.lua',
   'client/apartment.lua',
   'client/cl_property.lua',
@@ -30,20 +32,22 @@ client_script {
 
 server_script {
   '@oxmysql/lib/MySQL.lua',
-  "server/sv_property.lua",
-  "server/server.lua",
-  "server/migrate.lua"
-  }
+  'server/sv_property.lua',
+  'server/server.lua',
+  'server/migrate.lua'
+}
 
 files {
   'html/**',
-  'stream/starter_shells_k4mb1.ytyp'
+  'stream/starter_shells_k4mb1.ytyp',
+  'stream/lev_apart_shell.ytyp'
 }
 
 this_is_a_map 'yes'
 data_file 'DLC_ITYP_REQUEST' 'starter_shells_k4mb1.ytyp'
+data_file 'DLC_ITYP_REQUEST' 'lev_apart_shell.ytyp'
 
--- Fix for "stuck in black loading screen"
+-- Fix for 'stuck in black loading screen'
 data_file 'DLC_ITYP_REQUEST' 'x64c:/levels/gta5/interiors/int_props/int_corporate.rpf/int_corporate.ytyp'
 data_file 'DLC_ITYP_REQUEST' 'x64c:/levels/gta5/interiors/int_props/int_industrial.rpf/int_industrial.ytyp'
 data_file 'DLC_ITYP_REQUEST' 'x64c:/levels/gta5/interiors/int_props/int_lev_des.rpf/int_lev_des.ytyp'
