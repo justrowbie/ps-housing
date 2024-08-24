@@ -35,9 +35,13 @@ function InitialiseProperties(properties)
 
     Debug("Initialised properties")
 end
+
+-- nothing: handle in qbx_spawn
 -- AddEventHandler("QBCore:Client:OnPlayerLoaded", InitialiseProperties)
+
 RegisterNetEvent('ps-housing:client:initialiseProperties', InitialiseProperties)
 
+-- nothing: handle in qbx_spawn
 -- AddEventHandler("onResourceStart", function(resourceName) -- Used for when the resource is restarted while in game
 -- 	if (GetCurrentResourceName() == resourceName) then
 --         InitialiseProperties()
@@ -63,6 +67,20 @@ RegisterNetEvent('ps-housing:client:setupSpawnUI', function(cData)
             TriggerEvent('qb-spawn:client:setupSpawns', cData, false, nil)
             TriggerEvent('qb-spawn:client:openUI', true)
         end
+    end
+end)
+
+AddEventHandler('QBCore:Client:OnPlayerUnload', function()
+    if Modeler.IsMenuActive then
+        Modeler:CloseMenu()
+    end
+
+    for k, v in pairs(PropertiesTable) do
+        v:RemoveProperty()
+    end
+
+    for k, v in pairs(ApartmentsTable) do
+        v:RemoveApartment()
     end
 end)
 
