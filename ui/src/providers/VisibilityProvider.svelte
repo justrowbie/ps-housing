@@ -56,12 +56,12 @@ onMount(() => {
 <Portal>
 	<div class="z-[100] bg-black bg-opacity-50 w-screen h-screen absolute top-0 left-0 grid place-items-center">
 		<div class="bg-[color:var(--color-secondary)] absolute w-[50rem] h-[fit] p-[1vw] flex flex-col gap-[1vw] justify-center items-center">
-			<p class="text-[color:var(--color-text)] text-[2rem] font-bold text-start">
+			<p class="text-[color:var(--color-text)] text-[1.5rem] font-bold text-start">
 				Are you sure you want to exit? You have items in your cart.
 			</p>
 			<div class="flex flex-row justify-between w-full gap-[2vw]">
 				<button
-					class="bg-[color:var(--color-tertiary)] text-[color:var(--color-text)] text-[2rem] px-[1rem] py-[0.5rem] w-full hover:cursor-pointer"
+					class="bg-[color:var(--color-tertiary)] text-[color:var(--color-text)] text-[1.5rem] px-[1rem] py-[0.5rem] w-full hover:cursor-pointer"
 					on:click={() => {
 						showModal = false
 					}}
@@ -69,7 +69,7 @@ onMount(() => {
 					No
 				</button>
 				<button
-				class="bg-[color:var(--color-tertiary)] text-[color:var(--color-text)] text-[2rem] px-[1rem] py-[0.5rem] w-full hover:cursor-pointer"
+				class="bg-[color:var(--color-tertiary)] text-[color:var(--color-text)] text-[1.5rem] px-[1rem] py-[0.5rem] w-full hover:cursor-pointer"
 				on:click={() => {
           SendNUI('hideUI');
           showModal = false;

@@ -206,6 +206,26 @@ function Property:UpdatePrice(data)
     Debug("Changed Price of property with id: " .. self.property_id, "by: " .. GetPlayerName(realtorSrc))
 end
 
+function Property:UpdatePeriod(data)
+    local period = data.period
+    local realtorSrc = data.realtorSrc
+
+    if self.propertyData.period == period then return end
+
+    self.propertyData.period = period
+
+    MySQL.update("UPDATE properties SET period = @period WHERE property_id = @property_id", {
+        ["@period"] = period,
+        ["@property_id"] = self.property_id
+    })
+
+    TriggerClientEvent("ps-housing:client:updateProperty", -1, "UpdatePeriod", self.property_id, period)
+
+    Framework[Config.Logs].SendLog("**Changed Period** of property with id: " .. self.property_id .. " by: " .. GetPlayerName(realtorSrc))
+
+    Debug("Changed Period of property with id: " .. self.property_id, "by: " .. GetPlayerName(realtorSrc))
+end
+
 function Property:UpdateForSale(data)
     local forsale = data.forsale
     local realtorSrc = data.realtorSrc
@@ -244,6 +264,44 @@ function Property:UpdateShell(data)
     Debug("Changed Shell of property with id: " .. self.property_id, "by: " .. GetPlayerName(realtorSrc))
 end
 
+function Property:StartRentThread(propertyId)
+    CreateThread(function()
+        while true do
+            local property = MySQL.single.await('SELECT owner_citizenid, price, period, street, property_id FROM properties WHERE property_id = ?', {propertyId})
+            if not property then break end
+            if not property.owner_citizenid then break end
+            local player = exports.qbx_core:GetPlayerByCitizenId(property.owner_citizenid) or exports.qbx_core:GetOfflinePlayer(property.owner_citizenid)
+            if not player then print(string.format('%s does not exist anymore, consider checking property id %s', property.owner_citizenid, propertyId)) break end
+            if player.Offline then
+                player.PlayerData.money.bank = player.PlayerData.money.bank - property.price
+                if player.PlayerData.money.bank < 0 then break end
+                exports.qbx_core:SaveOffline(player.PlayerData)
+            else
+                if not player.Functions.RemoveMoney('bank', property.price, string.format('Sewa properti %s', property.street..' '..propertyId)) then
+                    TriggerClientEvent('ps-housing:client:sentEmail', player.PlayerData.source, property, 'terminate')
+                    Framework[Config.Notify].Notify(player.PlayerData.source, string.format('Kamu tidak memiliki cukup uang di bank untuk menyewa properti %s', property.street..' '..propertyId), 'error')
+                    break
+                end
+            end
+            -- Wait(property.period * ((60000 * 60) * 24))
+            Wait(property.period * 60000)
+        end
+
+        MySQL.update("UPDATE properties SET owner_citizenid = @owner_citizenid, has_access = @has_access WHERE property_id = @property_id", {
+            ["@owner_citizenid"] = nil,
+            ["@has_access"] = nil,
+            ["@property_id"] = propertyId
+        })
+
+        TriggerClientEvent("ps-housing:client:updateProperty", -1, "UpdateOwner", propertyId, nil)
+        TriggerClientEvent("ps-housing:client:updateProperty", -1, "UpdateForSale", propertyId, 1)
+
+        PropertiesTable[tostring(propertyId)].owner = nil
+
+        TriggerClientEvent('ps-housing:client:sentEmail', player.PlayerData.source, property, 'rentout')
+    end)
+end
+
 function Property:UpdateOwner(data)
     local targetSrc = data.targetSrc
     local realtorSrc = data.realtorSrc
@@ -253,15 +311,15 @@ function Property:UpdateOwner(data)
 
     local previousOwner = self.propertyData.owner
 
-    local targetPlayer  = exports.qbx_core:GetPlayer(tonumber(targetSrc))
+    local targetPlayer = exports.qbx_core:GetPlayer(tonumber(targetSrc))
 
     local PlayerData = targetPlayer.PlayerData
     local bank = PlayerData.money.bank
     local citizenid = PlayerData.citizenid
 
     if self.propertyData.owner == citizenid then
-        Framework[Config.Notify].Notify(targetSrc, "You already own this property", "error")
-        Framework[Config.Notify].Notify(realtorSrc, "Client already owns this property", "error")
+        Framework[Config.Notify].Notify(targetSrc, "Kamu sudah memiliki properti ini", "error")
+        Framework[Config.Notify].Notify(realtorSrc, "Seseorang sudah memiliki properti ini", "error")
         return
     end
 
@@ -269,18 +327,18 @@ function Property:UpdateOwner(data)
     local targetAllow = lib.callback.await("ps-housing:cb:confirmPurchase", targetSrc, self.propertyData.price, self.propertyData.street, self.propertyData.property_id)
 
     if targetAllow ~= "confirm" then
-        Framework[Config.Notify].Notify(targetSrc, "You did not confirm the purchase", "info")
-        Framework[Config.Notify].Notify(realtorSrc, "Client did not confirm the purchase", "error")
+        Framework[Config.Notify].Notify(targetSrc, "Kamu tidak melakukan konfirmasi atas pembelian ini", "info")
+        Framework[Config.Notify].Notify(realtorSrc, "Calon penghuni tidak melakukan konfirmasi", "error")
         return
     end
 
     if bank < self.propertyData.price then
-                Framework[Config.Notify].Notify(targetSrc, "You do not have enough money in your bank account", "error")
-            Framework[Config.Notify].Notify(realtorSrc, "Client does not have enough money in their bank account", "error")
+        Framework[Config.Notify].Notify(targetSrc, "Kamu tidak memiliki cukup uang di rekening bank", "error")
+        Framework[Config.Notify].Notify(realtorSrc, "Calon penghuni tidak memiliki cukup uang di rekening bank", "error")
         return
     end
 
-    targetPlayer.Functions.RemoveMoney('bank', self.propertyData.price, "Bought Property: " .. self.propertyData.street .. " " .. self.property_id)
+    targetPlayer.Functions.RemoveMoney('bank', self.propertyData.price, "Pembelian/Sewa Properti: " .. self.propertyData.street .. " " .. self.property_id)
 
     local prevPlayer = exports.qbx_core:GetPlayerByCitizenId(previousOwner)
     local realtor = exports.qbx_core:GetPlayer(tonumber(realtorSrc))
@@ -294,8 +352,8 @@ function Property:UpdateOwner(data)
         exports['qb-banking']:AddMoney(realtor.PlayerData.job.name, totalAfterCommission)
     else
         if prevPlayer ~= nil then
-            Framework[Config.Notify].Notify(prevPlayer.PlayerData.source, "Sold Property: " .. self.propertyData.street .. " " .. self.property_id, "success")
-            prevPlayer.Functions.AddMoney('bank', totalAfterCommission, "Sold Property: " .. self.propertyData.street .. " " .. self.property_id)
+            Framework[Config.Notify].Notify(prevPlayer.PlayerData.source, "Penjualan Properti: " .. self.propertyData.street .. " " .. self.property_id, "success")
+            prevPlayer.Functions.AddMoney('bank', totalAfterCommission, "Penjualan Properti: " .. self.propertyData.street .. " " .. self.property_id)
         elseif previousOwner then
             MySQL.Async.execute('UPDATE `players` SET `bank` = `bank` + @price WHERE `citizenid` = @citizenid', {
                 ['@citizenid'] = previousOwner,
@@ -304,7 +362,7 @@ function Property:UpdateOwner(data)
         end
     end
     
-    realtor.Functions.AddMoney('bank', commission, "Commission from Property: " .. self.propertyData.street .. " " .. self.property_id)
+    realtor.Functions.AddMoney('bank', commission, "Komisi Penjualan Properti: " .. self.propertyData.street .. " " .. self.property_id)
 
     self.propertyData.owner = citizenid
 
@@ -321,8 +379,16 @@ function Property:UpdateOwner(data)
     
     Framework[Config.Logs].SendLog("**House Bought** by: **"..PlayerData.charinfo.firstname.." "..PlayerData.charinfo.lastname.."** for $"..self.propertyData.price.." from **"..realtor.PlayerData.charinfo.firstname.." "..realtor.PlayerData.charinfo.lastname.."** !")
 
-    Framework[Config.Notify].Notify(targetSrc, "You have bought the property for $"..self.propertyData.price, "success")
-    Framework[Config.Notify].Notify(realtorSrc, "Client has bought the property for $"..self.propertyData.price, "success")
+    Framework[Config.Notify].Notify(targetSrc, "Kamu telah membeli/menyewa properti seharga Rp"..self.propertyData.price, "success")
+    Framework[Config.Notify].Notify(realtorSrc, "Calon penghuni telah membeli properti seharga Rp"..self.propertyData.price, "success")
+
+    --nothing: start rental thread
+    if self.propertyData.period > 0 then
+        Property:StartRentThread(self.property_id)
+        TriggerClientEvent('ps-housing:client:sentEmail', targetSrc, self.propertyData, 'rent')
+    else
+        TriggerClientEvent('ps-housing:client:sentEmail', targetSrc, self.propertyData, 'buy')
+    end
 end
 
 function Property:UpdateImgs(data)
@@ -438,9 +504,9 @@ function Property:UpdateApartment(data)
         ["@property_id"] = self.property_id
     })
 
-    Framework[Config.Notify].Notify(realtorSrc, "Changed Apartment of property with id: " .. self.property_id .." to ".. apartment, "success")
+    Framework[Config.Notify].Notify(realtorSrc, "Penggantian apartemen dengan id: " .. self.property_id .." menjadi ".. apartment, "success")
 
-    Framework[Config.Notify].Notify(targetSrc, "Changed Apartment to " .. apartment, "success")
+    Framework[Config.Notify].Notify(targetSrc, "Penggantian apartemen menjadi " .. apartment, "success")
 
     Framework[Config.Logs].SendLog("**Changed Apartment** with id: " .. self.property_id .. " by: **" .. GetPlayerName(realtorSrc) .. "** for **" .. GetPlayerName(targetSrc) .."**")
 
@@ -464,7 +530,7 @@ function Property:DeleteProperty(data)
 
     TriggerClientEvent("ps-housing:client:removeProperty", -1, propertyid)
 
-    Framework[Config.Notify].Notify(realtorSrc, "Property with id: " .. propertyid .." has been removed.", "info")
+    Framework[Config.Notify].Notify(realtorSrc, "Properti dengan id: " .. propertyid .." telah dihapus.", "info")
 
     Framework[Config.Logs].SendLog("**Property Deleted** with id: " .. propertyid .. " by: " .. realtorName)
 
@@ -562,7 +628,7 @@ RegisterNetEvent('ps-housing:server:raidProperty', function(property_id)
                 if confirmRaid == "confirm" then
                     property:StartRaid(src)
                     property:PlayerEnter(src)
-                    Framework[Config.Notify].Notify(src, "Raid started", "success")
+                    Framework[Config.Notify].Notify(src, "Pembobolan dimulai", "success")
 
                     if Config.ConsumeRaidItem then
                         -- Remove the "stormram" item from the officer's inventory
@@ -574,19 +640,19 @@ RegisterNetEvent('ps-housing:server:raidProperty', function(property_id)
                     end
                 end
             else
-                Framework[Config.Notify].Notify(src, "Raid in progress", "success")
+                Framework[Config.Notify].Notify(src, "Pembobolan sedang berlangsung", "success")
                 property:PlayerEnter(src)
             end
         else
-            Framework[Config.Notify].Notify(src, "You need a stormram to perform a raid", "error")
+            Framework[Config.Notify].Notify(src, "Kamu memerlukan pembobol besi untuk melakukan hal ini", "error")
         end
     else
         if not PoliceJobs[jobName] then
-            Framework[Config.Notify].Notify(src, "Only police officers are permitted to perform raids", "error")
+            Framework[Config.Notify].Notify(src, "Hanya petugas kepolisian yang dapat melakukan hal ini", "error")
         elseif not onDuty then
-            Framework[Config.Notify].Notify(src, "You must be onduty before performing a raid", "error")
+            Framework[Config.Notify].Notify(src, "Kamu harus bertugas untuk melakukan hal ini", "error")
         elseif not gradeAllowed then
-            Framework[Config.Notify].Notify(src, "You must be a higher rank before performing a raid", "error")
+            Framework[Config.Notify].Notify(src, "Kamu harus memiliki pangkat lebih tinggi untuk melakukan hal ini", "error")
         end
     end
 end)
@@ -663,14 +729,14 @@ RegisterNetEvent("ps-housing:server:buyFurniture", function(property_id, items, 
     local price = tonumber(price)
 
     if price > PlayerData.money.bank and price > PlayerData.money.cash then
-        Framework[Config.Notify].Notify(src, "You do not have enough money!", "error")
+        Framework[Config.Notify].Notify(src, "Kamu tidak memiliki cukup uang", "error")
         return
     end
 
     if price <= PlayerData.money.cash then
-        Player.Functions.RemoveMoney('cash', price, "Bought furniture")
+        Player.Functions.RemoveMoney('cash', price, "Pembelian Barang")
     else
-        Player.Functions.RemoveMoney('bank', price, "Bought furniture")
+        Player.Functions.RemoveMoney('bank', price, "Pembelian Barang")
     end
 
     local numFurnitures = #property.propertyData.furnitures
@@ -682,7 +748,7 @@ RegisterNetEvent("ps-housing:server:buyFurniture", function(property_id, items, 
 
     property:UpdateFurnitures(property.propertyData.furnitures)
 
-    Framework[Config.Notify].Notify(src, "You bought furniture for $" .. price, "success")
+    Framework[Config.Notify].Notify(src, "Kamu membeli barang seharga Rp" .. price, "success")
 
     Framework[Config.Logs].SendLog("**Player ".. GetPlayerName(src) .. "** bought furniture for **$" .. price .. "**")
 
@@ -756,10 +822,10 @@ RegisterNetEvent("ps-housing:server:addAccess", function(property_id, srcToAdd)
         has_access[#has_access+1] = targetCitizenid
         property:UpdateHas_access(has_access)
 
-        Framework[Config.Notify].Notify(src, "You added access to " .. targetPlayer.charinfo.firstname .. " " .. targetPlayer.charinfo.lastname, "success")
-        Framework[Config.Notify].Notify(srcToAdd, "You got access to this property!", "success")
+        Framework[Config.Notify].Notify(src, "Kamu memberikan kunci kepada " .. targetPlayer.charinfo.firstname .. " " .. targetPlayer.charinfo.lastname, "success")
+        Framework[Config.Notify].Notify(srcToAdd, "Kamu mendapatkan kunci properti", "success")
     else
-        Framework[Config.Notify].Notify(src, "This person already has access to this property!", "error")
+        Framework[Config.Notify].Notify(src, "ID yang dituju sudah memiliki kunci properti", "error")
     end
 end)
 
@@ -772,7 +838,7 @@ RegisterNetEvent("ps-housing:server:removeAccess", function(property_id, citizen
 
     if not property.propertyData.owner == citizenid then
         -- hacker ban or something
-        Framework[Config.Notify].Notify(src, "You are not the owner of this property!", "error")
+        Framework[Config.Notify].Notify(src, "Kamu bukan pemilik properti ini", "error")
         return
     end
 
@@ -793,13 +859,13 @@ RegisterNetEvent("ps-housing:server:removeAccess", function(property_id, citizen
         local removePlayerData = playerToAdd.PlayerData
         local srcToRemove = removePlayerData.source
 
-        Framework[Config.Notify].Notify(src, "You removed access from " .. removePlayerData.charinfo.firstname .. " " .. removePlayerData.charinfo.lastname, "success")
+        Framework[Config.Notify].Notify(src, "Kamu mencabut kunci dari " .. removePlayerData.charinfo.firstname .. " " .. removePlayerData.charinfo.lastname, "success")
 
         if srcToRemove then
-            Framework[Config.Notify].Notify(srcToRemove, "You lost access to " .. (property.propertyData.street or property.propertyData.apartment) .. " " .. property.property_id, "error")
+            Framework[Config.Notify].Notify(srcToRemove, "Kamu kehilangan kunci atas properti " .. (property.propertyData.street or property.propertyData.apartment) .. " " .. property.property_id, "error")
         end
     else
-        Framework[Config.Notify].Notify(src, "This person does not have access to this property!", "error")
+        Framework[Config.Notify].Notify(src, "ID tujuan tidak memiliki kunci properti ini", "error")
     end
 end)
 
@@ -851,7 +917,7 @@ lib.callback.register('ps-housing:cb:getPropertyInfo', function (source, propert
         ownerPlayer = exports.qbx_core:GetPlayerByCitizenId(ownerCid) or exports.qbx_core:GetOfflinePlayer(ownerCid)
         ownerName = ownerPlayer.PlayerData.charinfo.firstname .. " " .. ownerPlayer.PlayerData.charinfo.lastname
     else
-        ownerName = "No Owner"
+        ownerName = "Tidak Ada Pemilik"
     end
 
     data.owner = ownerName
@@ -869,7 +935,7 @@ end)
 RegisterNetEvent('ps-housing:server:resetMetaData', function()
     local src = source
     local Player = exports.qbx_core:GetPlayer(src)
-    local insideMeta = Player.PlayerData.metadata["inside"]
+    local insideMeta = Player.PlayerData.metadata.inside
 
     insideMeta.property_id = nil
     Player.Functions.SetMetaData("inside", insideMeta)

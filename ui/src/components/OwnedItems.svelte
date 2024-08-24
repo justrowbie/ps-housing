@@ -12,12 +12,12 @@
 	>
 		<div class="flex flex-row gap-2">
 			<h1
-				class="bg-[color:var(--color-secondary)] text-[2rem] py-4 w-full h-fit text-center"
+				class="bg-[color:var(--color-secondary)] text-[1.5rem] py-4 w-full h-fit text-center"
 			>
-				Owned Items
+				Barang Dimiliki
 			</h1>
 			<button
-				class="bg-[color:var(--color-secondary)] text-[2rem] py-4 h-full text-center aspect-square"
+				class="bg-[color:var(--color-secondary)] text-[1.5rem] py-4 h-full text-center aspect-square"
 				on:click={() => ($IS_OWNEDITEMS_OPEN = false)}
 			>
 				<i class="fa-solid fa-xmark" />
@@ -31,7 +31,7 @@
 					class="flex flex-row gap-2 w-full justify-between bg-[color:var(--color-secondary)] p-4 items-center"
 				>
 					<button
-						class="bg-[color:var(--color-tertiary)] text-[2rem] w-[4rem] h-[4rem] text-center aspect-square"
+						class="bg-[color:var(--color-tertiary)] text-[1.5rem] w-[4rem] h-[4rem] text-center aspect-square"
 						on:click={() => {
 							SendNUI('selectOwnedItem', item)
 						}}
@@ -39,10 +39,10 @@
 						<i class="fa-solid fa-magnifying-glass" />
 					</button>
 					<div class="flex flex-col gap-2 w-full">
-						<h1 class="text-[2rem]">{item.label}</h1>
+						<h1 class="text-[1.5rem]">{item.label}</h1>
 					</div>
 					<button
-						class="bg-[color:var(--color-tertiary)] text-[2rem] py-4 h-full text-center aspect-square"
+						class="bg-[color:var(--color-tertiary)] text-[1.5rem] py-4 h-full text-center aspect-square"
 						on:click={() => {
 							SendNUI('removeOwnedItem', item)
 						}}

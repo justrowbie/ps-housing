@@ -123,52 +123,52 @@ end)
 
 lib.callback.register('ps-housing:cb:confirmPurchase', function(amount, street, id)
     return lib.alertDialog({
-        header = 'Purchase Confirmation',
-        content = 'Are you sure you want to purchase '..street..' ' .. id .. ' for $' .. amount .. '?',
+        header = 'Konfirmasi Pembelina',
+        content = 'Apakah kamu yakin mau membeli properti '..street..' ' .. id .. ' seharga Rp' .. amount .. '?',
         centered = true,
         cancel = true,
         labels = {
-            confirm = "Purchase",
-            cancel = "Cancel"
+            confirm = "Beli",
+            cancel = "Batalkan"
         }
     })
 end)
 
 lib.callback.register('ps-housing:cb:confirmRaid', function(street, id)
     return lib.alertDialog({
-        header = 'Raid',
-        content = 'Do you want to raid '..street..' ' .. id .. '?',
+        header = 'Bobol',
+        content = 'Apakah kamu mau membobol properti '..street..' ' .. id .. '?',
         centered = true,
         cancel = true,
         labels = {
-            confirm = "Raid",
-            cancel = "Cancel"
+            confirm = "Bobol",
+            cancel = "Batalkan"
         }
     })
 end)
 
 lib.callback.register('ps-housing:cb:ringDoorbell', function()
     return lib.alertDialog({
-        header = 'Ring Doorbell',
-        content = 'You dont have a key for this property, would you like to ring the doorbell?',
+        header = 'Bel Pintu',
+        content = 'Apakah kamu ingin memanggil penghuni properti?',
         centered = true,
         cancel = true,
         labels = {
-            confirm = "Ring",
-            cancel = "Cancel"
+            confirm = "Tekan Bel",
+            cancel = "Batalkan"
         }
     })
 end)
 
 lib.callback.register('ps-housing:cb:showcase', function()
     return lib.alertDialog({
-        header = 'Showcase Property',
-        content = 'Do you want to showcase this property?',
+        header = 'Perlihatkan Properti',
+        content = 'Apakah kamu ingin memperlihatkan properti kepada orang lain?',
         centered = true,
         cancel = true,
         labels = {
-            confirm = "Yes",
-            cancel = "Cancel"
+            confirm = "Perlihatkan",
+            cancel = "Batalkan"
         }
     })
 end)

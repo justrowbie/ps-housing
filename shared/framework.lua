@@ -67,107 +67,90 @@ Framework.qb = {
 
     AddEntrance = function(coords, size, heading, propertyId, enter, raid, showcase, showData, targetName)
         local property_id = propertyId
-        exports["qb-target"]:AddBoxZone(
-            targetName,
-            vector3(coords.x, coords.y, coords.z),
-            size.x,
-            size.y,
-            {
-                name = targetName,
-                heading = heading,
-                debugPoly = Config.DebugMode,
-                minZ = coords.z - 1.5,
-                maxZ = coords.z + 2.0,
-            },
-            {
-                options = {
-                    {
-                        label = "Enter Property",
-                        icon = "fas fa-door-open",
-                        action = enter,
-                        canInteract = function()
-                            local property = Property.Get(property_id)
-                            return property.has_access or property.owner
-                        end,
-                    },
-                    {
-                        label = "Showcase Property",
-                        icon = "fas fa-eye",
-                        action = showcase,
-                        canInteract = function()
-                            local job = PlayerData.job
-                            local jobName = job.name
-                            local onDuty = job.onduty
-                            return RealtorJobs[jobName] and onDuty
-                        end,
-                    },
-                    {
-                        label = "Property Info",
-                        icon = "fas fa-circle-info",
-                        action = showData,
-                        canInteract = function()
-                            local job = PlayerData.job
-                            local jobName = job.name
-                            local onDuty = job.onduty
-                            return RealtorJobs[jobName] and onDuty
-                        end,
-                    },
-                    {
-                        label = "Ring Doorbell",
-                        icon = "fas fa-bell",
-                        action = enter,
-                        canInteract = function()
-                            local property = Property.Get(property_id)
-                            return not property.has_access and not property.owner
-                        end,
-                    },
-                    {
-                        label = "Raid Property",
-                        icon = "fas fa-building-shield",
-                        action = raid,
-                        canInteract = function()
-                            local job = PlayerData.job
-                            local jobName = job.name
-                            local gradeAllowed = tonumber(job.grade.level) >= Config.MinGradeToRaid
-                            local onDuty = job.onduty
+        exports.interact:AddInteraction({
+            coords = vector3(coords.x, coords.y, coords.z),
+            distance = 3.0,
+            interactDst = 2.0,
+            id = targetName,
+            name = targetName,
+            options = {
+                {
+                    label = "Masuk",
+                    action = enter,
+                    canInteract = function()
+                        local property = Property.Get(property_id)
+                        return property.has_access or property.owner
+                    end,
+                },
+                {
+                    label = "Perlihatkan",
+                    action = showcase,
+                    canInteract = function()
+                        local job = PlayerData.job
+                        local jobName = job.name
+                        local onDuty = job.onduty
+                        return RealtorJobs[jobName] and onDuty
+                    end,
+                },
+                {
+                    label = "Informasi",
+                    action = showData,
+                    canInteract = function()
+                        local job = PlayerData.job
+                        local jobName = job.name
+                        local onDuty = job.onduty
+                        return RealtorJobs[jobName] and onDuty
+                    end,
+                },
+                {
+                    label = "Bel Pintu",
+                    action = enter,
+                    canInteract = function()
+                        local property = Property.Get(property_id)
+                        return not property.has_access and not property.owner
+                    end,
+                },
+                {
+                    label = "Bobol",
+                    action = raid,
+                    canInteract = function()
+                        local job = PlayerData.job
+                        local jobName = job.name
+                        local gradeAllowed = tonumber(job.grade.level) >= Config.MinGradeToRaid
+                        local onDuty = job.onduty
 
-                            return PoliceJobs[jobName] and gradeAllowed and onDuty
-                        end,
-                    },
+                        return PoliceJobs[jobName] and gradeAllowed and onDuty
+                    end,
                 },
             }
-        )
+        })
 
         return targetName
     end,
 
     AddApartmentEntrance = function(coords, size, heading, apartment, enter, seeAll, seeAllToRaid, targetName)
-        exports['qb-target']:AddBoxZone(targetName, vector3(coords.x, coords.y, coords.z), size.x, size.y, {
+        exports.interact:AddInteraction({
+            coords = vector3(coords.x, coords.y, coords.z),
+            distance = 3.0,
+            interactDst = 2.0,
+            id = targetName,
             name = targetName,
-            heading = heading,
-            debugPoly = Config.DebugMode,
-            minZ = coords.z - 1.0,
-            maxZ = coords.z + 2.0,
-        }, {
             options = {
                 {
-                    label = "Enter Apartment",
+                    label = "Masuk",
                     action = enter,
-                    icon = "fas fa-door-open",
                     canInteract = function()
                         local apartments = ApartmentsTable[apartment].apartments
                         return hasApartment(apartments)
                     end,
                 },
                 {
-                    label = "See all apartments",
-                    icon = "fas fa-circle-info",
+                    label = "Lihat Penghuni",
                     action = seeAll,
                 },
                 {
-                    label = "Raid Apartment",
+                    label = "Bobol",
                     action = seeAllToRaid,
-                    icon = "fas fa-building-shield",
                     canInteract = function()
                         local job = PlayerData.job
                         local jobName = job.name
@@ -182,27 +165,20 @@ Framework.qb = {
     end,
 
     AddDoorZoneInside = function(coords, size, heading, leave, checkDoor)
-        exports["qb-target"]:AddBoxZone(
-            "shellExit",
-            vector3(coords.x, coords.y, coords.z),
-            size.x,
-            size.y,
-            {
-                name = "shellExit",
-                heading = heading,
-                debugPoly = Config.DebugMode,
-                minZ = coords.z - 2.0,
-                maxZ = coords.z + 1.0,
-            },
-            {
-                options = {
+        exports.interact:AddInteraction({
+            coords = vector3(coords.x, coords.y, coords.z),
+            distance = 3.0,
+            interactDst = 2.0,
+            id = "shellExit",
+            name = "shellExit",
+            options = {
                     {
-                        label = "Leave Property",
+                        label = "Keluar",
                         action = leave,
                         icon = "fas fa-right-from-bracket",
                     },
                     {
-                        label = "Check Door",
+                        label = "Cek Pintu",
                         action = checkDoor,
                         icon = "fas fa-bell",
                     },
@@ -214,22 +190,15 @@ Framework.qb = {
     end,
 
     AddDoorZoneInsideTempShell = function(coords, size, heading, leave)
-        exports["qb-target"]:AddBoxZone(
-            "shellExit",
-            vector3(coords.x, coords.y, coords.z),
-            size.x,
-            size.y,
-            {
-                name = "shellExit",
-                heading = heading,
-                debugPoly = Config.DebugMode,
-                minZ = coords.z - 2.0,
-                maxZ = coords.z + 1.0,
-            },
-            {
-                options = {
+        exports.interact:AddInteraction({
+            coords = vector3(coords.x, coords.y, coords.z),
+            distance = 3.0,
+            interactDst = 2.0,
+            id = "shellExit",
+            name = "shellExit",
+            options = {
                     {
-                        label = "Leave",
+                        label = "Keluar",
                         action = leave,
                         icon = "fas fa-right-from-bracket",
                     },
@@ -241,7 +210,7 @@ Framework.qb = {
     end,
 
     RemoveTargetZone = function(targetName)
-        exports["qb-target"]:RemoveZone(targetName)
+        exports.interact:RemoveInteraction(targetName)
     end,
 
     AddRadialOption = function(id, label, icon, _, event, options)
@@ -261,7 +230,12 @@ Framework.qb = {
     end,
 
     AddTargetEntity = function (entity, label, icon, action)
-        exports["qb-target"]:AddTargetEntity(entity, {
+        exports.interact:AddLocalEntityInteraction({
+            entity = entity,
+            name = 'ps_housing_entity',
+            id = 'ps_housing_entity',
+            distance = 3.0,
+            interactDst = 2.0,
             options = {
                 {
                     label = label,
@@ -273,7 +247,7 @@ Framework.qb = {
     end,
 
     RemoveTargetEntity = function (entity)
-        exports["qb-target"]:RemoveTargetEntity(entity)
+        exports.interact:RemoveLocalEntityInteraction(entity, 'ps_housing_entity')
     end,
 
     OpenInventory = function (stash, stashConfig)
@@ -303,7 +277,7 @@ Framework.ox = {
             debug = Config.DebugMode,
             options = {
                 {
-                    label = "Enter Property",
+                    label = "Masuk",
                     icon = "fas fa-door-open",
                     onSelect = enter,
                     canInteract = function()
@@ -312,7 +286,7 @@ Framework.ox = {
                     end,
                 },
                 {
-                    label = "Showcase Property",
+                    label = "Perlihatkan",
                     icon = "fas fa-eye",
                     onSelect = showcase,
                     canInteract = function()
@@ -326,7 +300,7 @@ Framework.ox = {
                     end,
                 },
                 {
-                    label = "Property Info",
+                    label = "Informasi",
                     icon = "fas fa-circle-info",
                     onSelect = showData,
                     canInteract = function()
@@ -337,7 +311,7 @@ Framework.ox = {
                     end,
                 },
                 {
-                    label = "Ring Doorbell",
+                    label = "Bel Pintu",
                     icon = "fas fa-bell",
                     onSelect = enter,
                     canInteract = function()
@@ -346,7 +320,7 @@ Framework.ox = {
                     end,
                 },
                 {
-                    label = "Raid Property",
+                    label = "Bobol",
                     icon = "fas fa-building-shield",
                     onSelect = raid,
                     canInteract = function()
@@ -372,7 +346,7 @@ Framework.ox = {
             debug = Config.DebugMode,
             options = {
                 {
-                    label = "Enter Apartment",
+                    label = "Masuk",
                     onSelect = enter,
                     icon = "fas fa-door-open",
                     canInteract = function()
@@ -381,12 +355,12 @@ Framework.ox = {
                     end,
                 },
                 {
-                    label = "See all apartments",
+                    label = "Lihat Penghuni",
                     onSelect = seeAll,
                     icon = "fas fa-circle-info",
                 },
                 {
-                    label = "Raid Apartment",
+                    label = "Bobol",
                     onSelect = seeAllToRaid,
                     icon = "fas fa-building-shield",
                     canInteract = function()
@@ -413,13 +387,13 @@ Framework.ox = {
             options = {
                 {
                     name = "leave",
-                    label = "Leave Property",
+                    label = "Keluar",
                     onSelect = leave,
                     icon = "fas fa-right-from-bracket",
                 },
                 {
                     name = "doorbell",
-                    label = "Check Door",
+                    label = "Cek Pintu",
                     onSelect = checkDoor,
                     icon = "fas fa-bell",
                 },
@@ -438,7 +412,7 @@ Framework.ox = {
             options = {
                 {
                     name = "leave",
-                    label = "Leave",
+                    label = "Keluar",
                     onSelect = leave,
                     icon = "fas fa-right-from-bracket",
                 },

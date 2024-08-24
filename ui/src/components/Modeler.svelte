@@ -137,7 +137,7 @@
 							mode = 'translate'
 						}
 					}}
-					>Change to {mode == 'translate'
+					>Ganti Mode {mode == 'translate'
 						? 'rotate'
 						: 'translate'}</button
 				>
@@ -147,7 +147,7 @@
 						on:click={() => {
 							mesh.rotation.set(0.0, 0.0, 0.0, $objectEuler.order)
 							getMeshLocation()
-						}}>Reset Rotation</button
+						}}>Reset Rotasi</button
 					>
 					<button
 						class="bg-[color:var(--color-secondary)]  text-white p-[1rem] w-full"
@@ -158,7 +158,7 @@
 								$cameraLookAt.z
 							)
 							getMeshLocation()
-						}}>Reset Position</button
+						}}>Reset Posisi</button
 					>
 				</div>
 				<div class="flex flex-col items-center">
@@ -198,10 +198,10 @@
 								)
 								getMeshLocation()
 							})
-						}}>Place On Ground</button
+						}}>Letakan Di Tanah</button
 					>
 				<div class="flex flex-col items-center ">
-					<p class=" h-fit">Rotation Snap</p>
+					<p class=" h-fit">Snap Rotasi</p>
 					<div class="flex flex-row gap-[1rem] text-center">
 						<div class="bg-[color:var(--color-secondary)] relative flex flex-col w-[8rem] px-[0.1rem]"><p>x</p> <p>{MathUtils.radToDeg($objectEuler.x).toFixed(2)}</p></div>
 						<div class="bg-[color:var(--color-secondary)] relative flex flex-col w-[8rem] px-[0.1rem]"><p>y</p> <p>{MathUtils.radToDeg($objectEuler.y).toFixed(2)}</p></div>
@@ -242,7 +242,7 @@
 						SendNUI('stopPlacement')
 						ModelStore.show.set(false)
 						$CURRENTFURNITURE = null
-					}}>Stop Placement</button
+					}}>Hentikan Peletakan</button
 				>
 			</div>
 			<button
@@ -252,7 +252,7 @@
 				}}
 			>
 				<i
-					class="fas text-[2rem] fa-chevron-{isPanelOpen
+					class="fas text-[1.5rem] fa-chevron-{isPanelOpen
 						? 'left'
 						: 'right'}"
 				/>
@@ -262,7 +262,7 @@
 		<!-- Add To Cart -->
 		{#if $entity == null}
 		<button
-			class="absolute text-[2rem] hover:brightness-110 top-1/2 -translate-y-1/2 right-[1rem] w-fit gap-[1rem] px-8 py-4  h-fit bg-[color:var(--color-secondary)] flex flex-row items-center justify-between"
+			class="absolute text-[1.5rem] hover:brightness-110 top-1/2 -translate-y-1/2 right-[1rem] w-fit gap-[1rem] px-8 py-4  h-fit bg-[color:var(--color-secondary)] flex flex-row items-center justify-between"
 			on:click={() => {
 				if ($CURRENTFURNITURE.max) {
 					const itemsWithSameType = $CART.filter(item => item.object === $CURRENTFURNITURE.object);
@@ -272,7 +272,7 @@
 					if (itemsWithSameType.length >= furnitureTypeMax) {
 						SendNUI('showNotification', {
 							type: 'error',
-							message: `You can only have ${furnitureTypeMax} of this item!`,
+							message: `Kamu hanya dapat memiliki ${furnitureTypeMax} barang ini`,
 						})
 						return;
 					}
@@ -283,7 +283,7 @@
 			}}
 		>        
 			<i class="fa-solid fa-shopping-cart text-[white]"></i>
-        	<p class=" font-semibold">Add To Cart</p>
+        	<p class=" font-semibold">Tambahkan ke Keranjang</p>
 		</button>	
 		{/if}
 

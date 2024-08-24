@@ -49,9 +49,9 @@
     <OwnedItems />
     <div 
     style="border-color: {isFreeCamMode?"white":"var(--color-tertiary)"};"
-    class="absolute -top-[5rem] text-[2rem] right-0 w-[8rem] border-[0.3rem] h-[4rem] bg-[color:var(--color-primary)] flex flex-row gap-[1rem] items-center justify-center">
+    class="absolute -top-[5rem] text-[1.5rem] right-0 w-[15rem] border-[0.3rem] h-[4rem] bg-[color:var(--color-primary)] flex flex-row gap-[1rem] items-center justify-center">
         <i class="fa-solid fa-video text-[white]"></i>
-        <p class=" font-semibold">C</p>
+        <p class=" font-semibold">Tekan C</p>
     </div>
     <div class="flex flex-row gap-[1rem] items-center absolute left-0 -top-[5rem] w-[30rem] h-fit p-4 bg-[color:var(--color-primary)]">
         <i class="fa-solid fa-eye text-[white]"></i>

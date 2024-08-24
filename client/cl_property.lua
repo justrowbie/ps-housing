@@ -125,10 +125,10 @@ function Property:RegisterPropertyEntrance()
         local data = lib.callback.await("ps-housing:cb:getPropertyInfo", false, self.property_id)
         if not data then return end
 
-        local content = "**Owner:** " .. data.owner .. "  \n" .. "**Description:** " .. data.description .. "  \n" .. "**Street:** " .. data.street .. "  \n" .. "**Region:** " .. data.region .. "  \n" .. "**Shell:** " .. data.shell .. "  \n" .. "**For Sale:** " .. (data.for_sale and "Yes" or "No")
+        local content = "**Pemilik:** " .. data.owner .. "  \n" .. "**Penjelasan:** " .. data.description .. "  \n" .. "**Nama Jalan:** " .. data.street .. "  \n" .. "**Regional:** " .. data.region .. "  \n" .. "**Tipe Shell:** " .. data.shell .. "  \n" .. "**Dijual:** " .. (data.for_sale and "Iya" or "Tidak")
 
         if data.for_sale then
-            content = content .. "  \n" .. "**Price:** " .. data.price
+            content = content .. "  \n" .. "**Harga:** " .. data.price
         end
 
         lib.alertDialog({
@@ -183,7 +183,7 @@ function Property:RegisterGarageZone()
         rotation = garageData.h,
         debug = Config.DebugMode,
         onEnter = function()
-            TriggerEvent('qbx_garages:client:OpenHouseGarage', self.property_id, true)
+            TriggerEvent('qbx_garages:client:setHouseGarage', self.property_id, true)
         end,
     })
 end
@@ -254,7 +254,7 @@ function Property:GiveMenus()
     if self.owner or accessAndConfig then
         Framework[Config.Radial].AddRadialOption(
             "furniture_menu",
-            "Furniture Menu",
+            "Menu Interior",
             "house",
             function()
                 Modeler:OpenMenu(self.property_id)
@@ -267,7 +267,7 @@ function Property:GiveMenus()
     if self.owner then
         Framework[Config.Radial].AddRadialOption(
             "access_menu",
-            "Manage Property",
+            "Atur Properti",
             "key",
             function()
                 self:ManageAccessMenu()
@@ -292,7 +292,7 @@ function Property:ManageAccessMenu()
     if not self.inProperty then return end
 
     if not self.owner then
-        Framework[Config.Notify].Notify("Only the owner can do this.", "error")
+        Framework[Config.Notify].Notify("Hanya pemilik properti yang dapat melakukan hal ini", "error")
         return
     end
 
@@ -300,19 +300,19 @@ function Property:ManageAccessMenu()
     local id = "property-" .. self.property_id .. "-access"
     local menu = {
         id = id,
-        title = "Manage Access",
+        title = "Atur Akses",
         options = {},
     }
 
     menu.options[#menu.options + 1] = {
-        title = "Give Access",
+        title = "Beri Kunci",
         onSelect = function()
             self:GiveAccessMenu()
         end,
     }
 
     menu.options[#menu.options + 1] = {
-        title = "Revoke Access",
+        title = "Cabut Kunci",
         onSelect = function()
             self:RevokeAccessMenu()
         end,
@@ -332,7 +332,7 @@ function Property:GiveAccessMenu()
     local id = "property-" .. self.property_id .. "-access-give"
     local menu = {
         id = id,
-        title = "Give Access",
+        title = "Beri Kunci",
         options = {},
     }
 
@@ -343,7 +343,7 @@ function Property:GiveAccessMenu()
             local v = players[i]
             menu.options[#menu.options + 1] = {
                 title = v.name,
-                description = "Give Access",
+                description = "Beri Kunci",
                 onSelect = function()
                     TriggerServerEvent("ps-housing:server:addAccess", self.property_id, v.src)
                 end,
@@ -353,7 +353,7 @@ function Property:GiveAccessMenu()
         lib.registerContext(menu)
         lib.showContext(id)
     else
-        Framework[Config.Notify].Notify("No one is in the property", "error")
+        Framework[Config.Notify].Notify("Tidak ada orang di dalam properti", "error")
     end
 end
 
@@ -365,7 +365,7 @@ function Property:RevokeAccessMenu()
     local id = "property-" .. self.property_id .. "-access-already"
     local alreadyAccessMenu = {
         id = id,
-        title = "Revoke Access",
+        title = "Cabut Kunci",
         options = {},
     }
 
@@ -377,7 +377,7 @@ function Property:RevokeAccessMenu()
             local v = playersWithAccess[i]
             alreadyAccessMenu.options[#alreadyAccessMenu.options + 1] = {
                 title = v.name,
-                description = "Remove Access",
+                description = "Cabut Kunci",
                 onSelect = function()
                     TriggerServerEvent("ps-housing:server:removeAccess", self.property_id, v.citizenid)
                 end,
@@ -387,7 +387,7 @@ function Property:RevokeAccessMenu()
         lib.registerContext(alreadyAccessMenu)
         lib.showContext(id)
     else
-        Framework[Config.Notify].Notify("No one has access to this property", "error")
+        Framework[Config.Notify].Notify("Tidak ada yang memiliki akses properti ini", "error")
     end
 end
 
@@ -395,14 +395,14 @@ function Property:OpenDoorbellMenu()
     if not self.inProperty then return end
 
     if not next(self.doorbellPool) then
-        Framework[Config.Notify].Notify("No one is at the door", "error")
+        Framework[Config.Notify].Notify("Tidak ada orang di depan pintu", "error")
         return
     end
 
     local id = string.format("property-%s-doorbell", self.property_id)
     local menu = {
         id = id,
-        title = "People at the door",
+        title = "Seseorang di depan pintu",
         options = {},
     }
 
@@ -640,6 +640,10 @@ function Property:UpdatePrice(newPrice)
     self.propertyData.price = newPrice
 end
 
+function Property:UpdatePeriod(newPeriod)
+    self.propertyData.period = newPeriod
+end
+
 function Property:UpdateForSale(forSale)
     self.propertyData.for_sale = forSale
 end
@@ -669,6 +673,20 @@ function Property:UpdateOwner(newOwner)
 
     self:RemoveMenus()
     self:GiveMenus()
+end
+
+function Property:RemoveOwner()
+    self.propertyData.owner = nil
+    self.propertyData.has_access = nil
+
+    self.owner = nil
+    self.has_access = nil
+
+    self:UnregisterGarageZone()
+
+    if not self.inProperty then return end
+
+    self:RemoveMenus()
 end
 
 function Property:UpdateImgs(newImgs)
@@ -761,4 +779,32 @@ RegisterNetEvent("ps-housing:client:openManagePropertyAccessMenu", function(data
     if not property then return end
 
     property:ManageAccessMenu()
+end)
+
+RegisterNetEvent('ps-housing:client:sentEmail', function(property, type)
+    if type == 'terminate' then
+        TriggerServerEvent('qs-smartphone:server:sendNewMail', {
+            sender = 'PT. IPS Properti',
+            subject = 'Tagihan',
+            message = 'Kami telah mencabut hak properti anda dikarenakan kamu <b>tidak memiliki uang yang cukup di bank</b> untuk membayar tagihan.<br><br>Silahkan melakukan penyewaan kembali untuk mengakses barang anda.<br><br>PT. IPS Properti',
+        })
+    elseif type == 'rent' then
+        TriggerServerEvent('qs-smartphone:server:sendNewMail', {
+            sender = 'PT. IPS Properti',
+            subject = 'Selamat Datang',
+            message = 'Selamat kamu telah mendapatkan hak atas properti <b>'..property.street..' '..property.property_id..'</b>.<br><br>Kami akan melakukan penagihan otomatis setiap <b>'..property.period..'</b> hari. Pastikan dana tersedia di rekening bank anda.<br><br>PT. IPS Properti',
+        })
+    elseif type == 'buy' then
+        TriggerServerEvent('qs-smartphone:server:sendNewMail', {
+            sender = 'PT. IPS Properti',
+            subject = 'Selamat Datang',
+            message = 'Selamat kamu telah mendapatkan hak penuh atas properti <b>'..property.street..' '..property.property_id..'</b>.<br><br>Mohon diperhatikan bahwa kami berhak melakukan penarikan akses atas properti ini jika tidak ada aktifitas dalam kurun waktu tertentu.<br><br>PT. IPS Properti',
+        })
+    elseif type == 'rentout' then
+        TriggerServerEvent('qs-smartphone:server:sendNewMail', {
+            sender = 'PT. IPS Properti',
+            subject = 'Terima Kasih',
+            message = 'Kami telah melakukan penarikan atas kunci properti <b>'..property.street..' '..property.property_id..'</b>.<br><br>Pastikan semua barang anda sudah dikeluarkan sebelum meninggalkan properti.<br><br>PT. IPS Properti',
+        })
+    end
 end)

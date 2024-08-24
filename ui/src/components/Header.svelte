@@ -67,7 +67,7 @@
 				autofocus
 				class="min-w-[10rem] h-[4.5rem] px-[1rem] text-[1.6rem] bg-[color:var(--color-tertiary)]"
 				type="text"
-				placeholder="Search"
+				placeholder="Cari Barang"
 			/>
 		{/if}
 	</button>
@@ -109,7 +109,7 @@
 				
 			}}
 			>
-			<p class="w-fit whitespace-nowrap">Owned Furniture</p>
+			<p class="w-fit whitespace-nowrap">Barang Dimiliki</p>
 			<span class="h-fit px-[1rem] bg-[color:var(--color-tertiary)]"
 				>{$OWNEDITEMS.length}</span
 			>

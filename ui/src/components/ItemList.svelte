@@ -43,7 +43,7 @@
 						if (itemsWithSameType.length >= furnitureTypeMax) {
 							SendNUI('showNotification', {
 								type: 'error',
-								message: `You can only have ${furnitureTypeMax} of this item!`,
+								message: `Kamu hanya dapat memiliki ${furnitureTypeMax} barang ini`,
 							})
 							return;
 						}
@@ -75,16 +75,16 @@
 					class="w-full h-full flex flex-col justify-center items-start ml-10"
 				>
 					<p
-						class="text-[color:var(--color-text)] text-[2rem] font-bold text-start"
+						class="text-[color:var(--color-text)] text-[1.5rem] font-bold text-start"
 					>
 						{furniture.label}
 					</p>
 					<div class="flex">
 						<p class="text-[color:var(--color-text)] text-[1.2rem]">
-							Price:
+							Harga:
 						</p>
 						<p class="text-[color:var(--color-accent)] ml-2 font-bold text-[1.2rem]">
-							${furniture.price}
+							Rp{furniture.price}
 						</p>
 					</div>
 				</div>
@@ -116,23 +116,22 @@
 				class="bg-[color:var(--color-secondary)] absolute w-[50rem] h-[fit] p-[1vw] flex flex-col gap-[1vw] justify-center items-center"
 			>
 				<p
-					class="text-[color:var(--color-text)] text-[2rem] font-bold text-start"
+					class="text-[color:var(--color-text)] text-[1.5rem] font-bold text-start"
 				>
-					Are you sure you want to stop placing this current
-					furniture?
+					Apakah kamu ingin menyelesaikan pengaturan barang?
 				</p>
 				<div class="flex flex-row justify-between w-full gap-[2vw]">
 					<button
-						class="bg-[color:var(--color-tertiary)] text-[color:var(--color-text)] text-[2rem] px-[1rem] py-[0.5rem] w-full hover:cursor-pointer"
+						class="bg-[color:var(--color-tertiary)] text-[color:var(--color-text)] text-[1.5rem] px-[1rem] py-[0.5rem] w-full hover:cursor-pointer"
 						on:click={() => {
 							showModal = false
 							switchToFurniture = null
 						}}
 					>
-						No
+						Tidak
 					</button>
 					<button
-						class="bg-[color:var(--color-tertiary)] text-[color:var(--color-text)] text-[2rem] px-[1rem] py-[0.5rem] w-full hover:cursor-pointer"
+						class="bg-[color:var(--color-tertiary)] text-[color:var(--color-text)] text-[1.5rem] px-[1rem] py-[0.5rem] w-full hover:cursor-pointer"
 						on:click={() => {
 							SendNUI('previewFurniture', switchToFurniture)
 							$CURRENTFURNITURE = switchToFurniture
@@ -142,7 +141,7 @@
 							switchToFurniture = null
 						}}
 					>
-						Yes
+						Iya
 					</button>
 				</div>
 			</div>
