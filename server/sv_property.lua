@@ -283,8 +283,7 @@ function Property:StartRentThread(propertyId)
                     break
                 end
             end
-            -- Wait(property.period * ((60000 * 60) * 24))
-            Wait(property.period * 60000)
+            Wait(property.period * ((60000 * 60) * 24))
         end
 
         MySQL.update("UPDATE properties SET owner_citizenid = @owner_citizenid, has_access = @has_access WHERE property_id = @property_id", {
@@ -295,8 +294,6 @@ function Property:StartRentThread(propertyId)
 
         TriggerClientEvent("ps-housing:client:updateProperty", -1, "UpdateOwner", propertyId, nil)
         TriggerClientEvent("ps-housing:client:updateProperty", -1, "UpdateForSale", propertyId, 1)
-
-        PropertiesTable[tostring(propertyId)].owner = nil
 
         TriggerClientEvent('ps-housing:client:sentEmail', player.PlayerData.source, property, 'rentout')
     end)
