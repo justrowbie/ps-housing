@@ -226,6 +226,26 @@ function Property:UpdatePeriod(data)
     Debug("Changed Period of property with id: " .. self.property_id, "by: " .. GetPlayerName(realtorSrc))
 end
 
+function Property:UpdateOffset(data)
+    local offset = data.offset
+    local realtorSrc = data.realtorSrc
+
+    if self.propertyData.offset == offset then return end
+
+    self.propertyData.offset = offset
+
+    MySQL.update("UPDATE properties SET offset = @offset WHERE property_id = @property_id", {
+        ["@offset"] = offset,
+        ["@property_id"] = self.property_id
+    })
+
+    TriggerClientEvent("ps-housing:client:updateProperty", -1, "UpdateOffset", self.property_id, offset)
+
+    Framework[Config.Logs].SendLog("**Changed Offset** of property with id: " .. self.property_id .. " by: " .. GetPlayerName(realtorSrc))
+
+    Debug("Changed Offset of property with id: " .. self.property_id, "by: " .. GetPlayerName(realtorSrc))
+end
+
 function Property:UpdateForSale(data)
     local forsale = data.forsale
     local realtorSrc = data.realtorSrc

@@ -75,7 +75,7 @@ end
 function Property:CreateShell()
     local coords = self:GetDoorCoords()
 
-    coords = vec3(coords.x, coords.y, coords.z - 25.0)
+    coords = vec3(coords.x, coords.y, coords.z + self.propertyData.offset)
     self.shell = Shell:CreatePropertyShell(self.propertyData.shell, coords)
 
     self.shellObj = self.shell.entity
@@ -642,6 +642,10 @@ end
 
 function Property:UpdatePeriod(newPeriod)
     self.propertyData.period = newPeriod
+end
+
+function Property:UpdateOffset(newOffset)
+    self.propertyData.offset = newOffset
 end
 
 function Property:UpdateForSale(forSale)

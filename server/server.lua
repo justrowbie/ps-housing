@@ -19,6 +19,7 @@ MySQL.ready(function()
                 for_sale = v.for_sale,
                 price = v.price,
                 period = v.period,
+                offset = v.offset,
                 shell = v.shell,
                 apartment = v.apartment,
                 door_data = json.decode(v.door_data),
@@ -49,8 +50,8 @@ AddEventHandler("ps-housing:server:registerProperty", function (propertyData, pr
     propertyData.door_data = propertyData.door_data or {}
     propertyData.garage_data = propertyData.garage_data or {}
     
-    local cols = "(owner_citizenid, street, region, description, has_access, extra_imgs, furnitures, for_sale, price, period, shell, apartment, door_data, garage_data)"
-    local vals = "(@owner_citizenid, @street, @region, @description, @has_access, @extra_imgs, @furnitures, @for_sale, @price, @period, @shell, @apartment, @door_data, @garage_data)"
+    local cols = "(owner_citizenid, street, region, description, has_access, extra_imgs, furnitures, for_sale, price, period, offset, shell, apartment, door_data, garage_data)"
+    local vals = "(@owner_citizenid, @street, @region, @description, @has_access, @extra_imgs, @furnitures, @for_sale, @price, @period, @offset, @shell, @apartment, @door_data, @garage_data)"
 
     local id = MySQL.insert.await("INSERT INTO properties " .. cols .. " VALUES " .. vals , {
         ["@owner_citizenid"] = propertyData.owner or nil,
@@ -63,6 +64,7 @@ AddEventHandler("ps-housing:server:registerProperty", function (propertyData, pr
         ["@for_sale"] = propertyData.for_sale ~= nil and propertyData.for_sale or 1,
         ["@price"] = propertyData.price or 0,
         ["@period"] = propertyData.period or 0,
+        ["@offset"] = propertyData.offset or -21.0,
         ["@shell"] = propertyData.shell,
         ["@apartment"] = propertyData.apartment,
         ["@door_data"] = json.encode(propertyData.door_data),

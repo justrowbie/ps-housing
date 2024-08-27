@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS `properties` (
     `price` int(11) NOT NULL DEFAULT 0,
     `period` int(11) NOT NULL DEFAULT 0,
     `shell` varchar(50) NOT NULL,
+    `offset` varchar(50) NOT NULL,
     `apartment` varchar(50) NULL DEFAULT NULL, -- if NULL then it's a house
     `door_data` JSON NULL DEFAULT NULL, -- {"x": 0.0, "y": 0.0, "z": 0.0, "h": 0.0, "length": 0.0, "width": 0.0}
     `garage_data` JSON NULL DEFAULT NULL, -- {"x": 0.0, "y": 0.0, "z": 0.0} -- NULL if no garage
