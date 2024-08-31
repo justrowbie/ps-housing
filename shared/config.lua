@@ -73,151 +73,423 @@ Config.StartingApartment = false
 Config.ShowCustomizerWhenNoStartingApartment = false
 
 Config.Apartments = {
-    ["Integrity Way"] = {
-        label = "Integrity Way",
-        door = { x = 269.73, y = -640.75, z = 42.02, h = 249.07, length = 1, width = 2 },
-        imgs = {
-            {
-                url = "https://users-cdn.versescripts.net/68fe5fd70ca9bd96640da4c31fdb573f.png",
-                label = "Outside",
-            },
-        },
-        shell = "Apartment Furnished",
-    },
+    -- ["Integrity Way"] = {
+    --     label = "Integrity Way",
+    --     door = { x = 269.73, y = -640.75, z = 42.02, h = 249.07, length = 1, width = 2 },
+    --     imgs = {
+    --         {
+    --             url = "https://users-cdn.versescripts.net/68fe5fd70ca9bd96640da4c31fdb573f.png",
+    --             label = "Outside",
+    --         },
+    --     },
+    --     shell = "Apartment Furnished",
+    -- },
 }
 
 -- Shells provided by K4MB1 https://www.k4mb1maps.com/
 Config.Shells = {
-    ["Standard Motel"] = {
-        label = "Standard Motel",
-        hash = `standardmotel_shell`,
-        doorOffset = { x = -0.5, y = -2.3, z = 0.0, h = 90.0, width = 1.5 },
-        stash = {
-            maxweight = 100000, 
-            slots = 12,
-        },
-        imgs = {
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101712181017460736/motel.webp",
-                label = "Motel",
-            },
-        }
-    },
-
-    ["Modern Hotel"] = {
-        label = "Modern Hotel",
-        hash = `modernhotel_shell`,
-        doorOffset = { x = 4.98, y = 4.35, z = 0.0, h = 179.79, width = 2.0  },
-        stash = {
-            maxweight = 150000, 
-            slots = 20,
-        },
-        imgs = {
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101712459691208704/angle_1.webp",
-                label = "Angle 1",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101712460110643210/angle_2.webp",
-                label = "Angle 2",
-            },
-        }
-    },
-
-    ["Apartment Furnished"] = {
-        label = "Apartment Furnished",
-        hash = `furnitured_midapart`,
-        doorOffset = { x = 1.44, y = -10.25, z = 0.0, h = 0.0, width = 1.5  },
+    ["Motel 1"] = {
+        label = "Motel 1",
+        hash = `standardmotel_shell_clear`,
+        doorOffset = { x = -0.39, y = -2.48, z = -1.55, h = 266.69, width = 2.0 },
         stash = {
             maxweight = 200000, 
             slots = 25,
         },
         imgs = {
             {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101712598019354684/bathroom.webp",
-                label = "Bathroom",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101712598409420850/Bedroom.webp",
-                label = "Bedroom",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101712598807887942/entry.webp",
-                label = "Entrance",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101712599185371146/Kitchen_and_Dining.webp",
-                label = "Kitchen and Dining",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101712599629963366/living_room_1.webp",
-                label = "Living Room Angle 1",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101712599982293022/living_room_2.webp",
-                label = "Living Room Angle 2",
+                url = "nui://ps-housing/images/standardmotel_shell_clear.png",
+                label = "Main Room",
             },
         },
     },
 
-    ["Apartment Unfurnished"] = {
-        label = "Apartment Unfurnished",
-        hash = `shell_v16mid`,
-        doorOffset = { x = 1.34, y = -14.36, z = -0.5, h = 354.08, width = 1.5  },
+    ["Motel 2"] = {
+        label = "Motel 2",
+        hash = `tpcm_motel_shell_clear`,
+        doorOffset = { x = -0.77, y = 0.64, z = 0.05, h = 4.42, width = 2.0 },
         stash = {
             maxweight = 200000, 
             slots = 25,
         },
         imgs = {
             {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101712919412088955/bathroom.webp",
-                label = "Bathroom",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101712919735054417/bedroom.webp",
-                label = "Bedroom",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101712920083189770/entry.webp",
-                label = "Entrance",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101712920464859257/kitchen.webp",
-                label = "Kitchen",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101712920846544907/livingroom.webp",
-                label = "Living Room",
+                url = "nui://ps-housing/images/tpcm_motel_shell_clear.png",
+                label = "Main Room",
             },
         },
     },
 
-    ["Apartment 2 Unfurnished"] = {
-        label = "Apartment 2 Unfurnished",
+    ["Motel 3"] = {
+        label = "Motel 3",
+        hash = `gabz_pinkcage`,
+        doorOffset = { x = -3.85, y = -3.46, z = -1.78, h = 0.68, width = 2.0 },
+        stash = {
+            maxweight = 200000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/gabz_pinkcage.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["Motel 4"] = {
+        label = "Motel 4",
+        hash = `modernhotel_shell_clear`,
+        doorOffset = { x = 0.10, y = -4.48, z = -1.45, h = 359.91, width = 2.0 },
+        stash = {
+            maxweight = 200000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/modernhotel_shell_clear.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["House Low 1"] = {
+        label = "House Low 1",
+        hash = `shell_lester`,
+        doorOffset = { x = -1.70, y = -5.93, z = -1.36, h = 359.50, width = 2.0 },
+        stash = {
+            maxweight = 300000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_lester.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["House Low 2"] = {
+        label = "House Low 2",
+        hash = `shell_medium3`,
+        doorOffset = { x = 5.80, y = -1.56, z = 0.21, h = 89.54, width = 2.0 },
+        stash = {
+            maxweight = 300000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_medium3.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["House Low 3"] = {
+        label = "House Low 3",
+        hash = `t1_unfurn_shell`,
+        doorOffset = { x = -2.42, y = 1.99, z = -0.71, h = 182.55, width = 2.0 },
+        stash = {
+            maxweight = 300000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/t1_unfurn_shell.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["House Medium 1"] = {
+        label = "House Medium 1",
         hash = `shell_v16low`,
-        doorOffset = { x = 4.69, y = -6.5, z = -1.0, h = 358.50, width = 1.5  },
+        doorOffset = { x = 4.77, y = -6.43, z = -2.64, h = 358.25, width = 2.0 },
         stash = {
-            maxweight = 200000, 
+            maxweight = 300000, 
             slots = 25,
         },
         imgs = {
             {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713104288612384/entry.webp",
-                label = "Entrance",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713104926154853/kitchen.webp",
-                label = "Kitchen",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713105333006357/livingroom.webp",
-                label = "Living Room",
+                url = "nui://ps-housing/images/shell_v16low.png",
+                label = "Main Room",
             },
         },
     },
 
-    ["Garage"] = {
-        label = "Garage",
+    ["House Medium 2"] = {
+        label = "House Medium 2",
+        hash = `shell_v16mid`,
+        doorOffset = { x = 1.49, y = -14.15, z = -1.48, h = 5.34, width = 2.0 },
+        stash = {
+            maxweight = 300000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_v16mid.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["House Medium 3"] = {
+        label = "House Medium 3",
+        hash = `shell_medium2`,
+        doorOffset = { x = 6.06, y = 0.36, z = -1.65, h = 0.32, width = 2.0 },
+        stash = {
+            maxweight = 300000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_medium2.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["House Medium 4"] = {
+        label = "House Medium 4",
+        hash = `t2_unfurn_shell`,
+        doorOffset = { x = 1.30, y = 0.59, z = 0.01, h = 184.05, width = 2.0 },
+        stash = {
+            maxweight = 300000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/t2_unfurn_shell.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["House Medium 5"] = {
+        label = "House Medium 5",
+        hash = `t3_unfurn_shell`,
+        doorOffset = { x = -0.09, y = 0.61, z = 0.01, h = 184.55, width = 2.0 },
+        stash = {
+            maxweight = 300000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/t3_unfurn_shell.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["House Medium 6"] = {
+        label = "House Medium 6",
+        hash = `shell_trevor`,
+        doorOffset = { x = 0.28, y = -3.76, z = -1.40, h = 358.63, width = 2.0 },
+        stash = {
+            maxweight = 300000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_trevor.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["House Medium 7"] = {
+        label = "House Medium 7",
+        hash = `shell_frankaunt`,
+        doorOffset = { x = -0.38, y = -5.79, z = -1.56, h = 0.66, width = 2.0 },
+        stash = {
+            maxweight = 300000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_frankaunt.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["House High 1"] = {
+        label = "House High 1",
+        hash = `envi_shell_01_empty`,
+        doorOffset = { x = 0.62, y = 0.44, z = -1.13, h = 5.53, width = 2.0 },
+        stash = {
+            maxweight = 400000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/envi_shell_01_empty.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["House High 2"] = {
+        label = "House High 2",
+        hash = `envi_shell_02_empty`,
+        doorOffset = { x = 0.11, y = -10.75, z = 0.04, h = 359.75, width = 2.0 },
+        stash = {
+            maxweight = 400000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/envi_shell_02_empty.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["House High 3"] = {
+        label = "House High 3",
+        hash = `envi_shell_03_empty`,
+        doorOffset = { x = 5.00, y = -6.95, z = 0.19, h = 89.19, width = 2.0 },
+        stash = {
+            maxweight = 400000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/envi_shell_03_empty.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["House High 4"] = {
+        label = "House High 4",
+        hash = `shell_apartment1`,
+        doorOffset = { x = -2.24, y = 8.97, z = 2.21, h = 180.74, width = 2.0 },
+        stash = {
+            maxweight = 400000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_apartment1.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["House High 5"] = {
+        label = "House High 5",
+        hash = `shell_apartment2`,
+        doorOffset = { x = -2.27, y = 8.91, z = 2.21, h = 183.69, width = 2.0 },
+        stash = {
+            maxweight = 400000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_apartment2.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["House High 6"] = {
+        label = "House High 6",
+        hash = `shell_apartment3`,
+        doorOffset = { x = 11.62, y = 4.64, z = 1.02, h = 130.38, width = 2.0 },
+        stash = {
+            maxweight = 400000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_apartment3.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["House High 7"] = {
+        label = "House High 7",
+        hash = `unfurnished_free_shell1`,
+        doorOffset = { x = -2.80, y = -6.77, z = -2.64, h = 359.56, width = 2.0 },
+        stash = {
+            maxweight = 400000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/irregulars_unfurnished_free_shell1.png",
+                label = "Main Room",
+            },
+        },
+    },
+    
+    ["House High 8"] = {
+        label = "House High 8",
+        hash = `unfurnished_free_shell1`,
+        doorOffset = { x = -2.80, y = -6.77, z = -2.64, h = 359.56, width = 2.0 },
+        stash = {
+            maxweight = 400000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/irregulars_unfurnished_free_shell1.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["House High 9"] = {
+        label = "House High 9",
+        hash = `shell_highend`,
+        doorOffset = { x = -22.24, y = -0.43, z = 6.22, h = 272.76, width = 2.0 },
+        stash = {
+            maxweight = 400000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_highend.png",
+                label = "Main Room",
+            },
+        },
+    },
+    
+    ["House High 10"] = {
+        label = "House High 10",
+        hash = `shell_highendv2`,
+        doorOffset = { x = -10.38, y = 0.83, z = 0.95, h = 271.59, width = 2.0 },
+        stash = {
+            maxweight = 400000, 
+            slots = 25,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_highendv2.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["Garage 1"] = {
+        label = "Garage 1",
+        hash = `shell_garages`,
+        doorOffset = { x = 5.85, y = 3.70, z = -1.49, h = 181.56, width = 2.0 },
+        stash = {
+            maxweight = 500000, 
+            slots = 50,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_garages.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["Garage 2"] = {
+        label = "Garage 2",
         hash = `shell_garagem`,
         doorOffset = { x = 14.0, y = 1.7, z = -0.76, h = 88.49, width = 2.0  },
         stash = {
@@ -226,18 +498,30 @@ Config.Shells = {
         },
         imgs = {
             {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713200220745748/entry.webp",
-                label = "Entrance",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713200677933126/garage.webp",
-                label = "Garage",
+                url = "nui://ps-housing/images/shell_garagem.png",
+                label = "Main Room",
             },
         },
     },
 
-    ["Office"] = {
-        label = "Office",
+    ["Garage 3"] = {
+        label = "Garage 3",
+        hash = `shell_garagel`,
+        doorOffset = { x = 12.41, y = -14.29, z = -1.99, h = 88.23, width = 2.0 },
+        stash = {
+            maxweight = 500000, 
+            slots = 50,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_garagel.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["Office 1"] = {
+        label = "Office 1",
         hash = `shell_office1`,
         doorOffset = { x = 1.2, y = 4.90, z = -0.73, h = 180.0, width = 2.0  },
         stash = {
@@ -246,52 +530,200 @@ Config.Shells = {
         },
         imgs = {
             {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713285117648976/entry.webp",
-                label = "Entance",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713285449007196/office.webp",
-                label = "Office",
+                url = "nui://ps-housing/images/shell_office1.png",
+                label = "Main Room",
             },
         },
     },
 
-    ["Store"] = {
-        label = "Store",
+    ["Office 2"] = {
+        label = "Office 2",
+        hash = `shell_officebig`,
+        doorOffset = { x = -12.53, y = 2.05, z = -1.39, h = 175.38, width = 2.0 },
+        stash = {
+            maxweight = 250000, 
+            slots = 30,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_officebig.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["Office 3"] = {
+        label = "Office 3",
+        hash = `shell_office2`,
+        doorOffset = { x = 3.61, y = -1.82, z = -1.86, h = 91.18, width = 2.0 },
+        stash = {
+            maxweight = 250000, 
+            slots = 30,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_office2.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["Store 1"] = {
+        label = "Store 1",
         hash = `shell_store1`,
-        doorOffset = { x = -2.69, y = -4.56, z = -0.62, h = 1.91, width = 2.0  },
+        doorOffset = { x = -2.56, y = -4.55, z = -1.61, h = 0.09, width = 2.0 },
         stash = {
             maxweight = 500000, 
             slots = 50,
         },
         imgs = {
             {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713353291878420/room_1.webp",
-                label = "Room 1",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713353937789018/room_2.webp",
-                label = "Room 2",
+                url = "nui://ps-housing/images/shell_store1.png",
+                label = "Main Room",
             },
         },
     },
 
-    ["Warehouse"] = {
-        label = "Warehouse",
-        hash = `shell_warehouse1`,
-        doorOffset = { x = -8.96, y = 0.11, z = -0.95, h = 270.64, width = 2.0  },
+    ["Store 2"] = {
+        label = "Store 2",
+        hash = `shell_store2`,
+        doorOffset = { x = -0.71, y = -5.12, z = -2.14, h = 358.39, width = 2.0 },
+        stash = {
+            maxweight = 500000, 
+            slots = 50,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_store2.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["Store 3"] = {
+        label = "Store 3",
+        hash = `shell_store3`,
+        doorOffset = { x = 0.02, y = -7.81, z = -1.29, h = 358.37, width = 2.0 },
+        stash = {
+            maxweight = 500000, 
+            slots = 50,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_store3.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["Store 4"] = {
+        label = "Store 4",
+        hash = `shell_gunstore`,
+        doorOffset = { x = -1.05, y = -5.43, z = -1.73, h = 1.06, width = 2.0 },
+        stash = {
+            maxweight = 500000, 
+            slots = 50,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_gunstore.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["Store 5"] = {
+        label = "Store 5",
+        hash = `shell_barber`,
+        doorOffset = { x = 1.57, y = 5.22, z = -1.55, h = 177.51, width = 2.0 },
+        stash = {
+            maxweight = 500000, 
+            slots = 50,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_barber.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["Warehouse 1"] = {
+        label = "Warehouse 1",
+        hash = `shell_warehouse3`,
+        doorOffset = { x = 2.48, y = -1.61, z = -1.93, h = 93.16, width = 2.0 },
         stash = {
             maxweight = 1000000, 
             slots = 100,
         },
         imgs = {
             {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713451149172766/angle1.webp",
-                label = "Angle 1",
+                url = "nui://ps-housing/images/shell_warehouse3.png",
+                label = "Main Room",
             },
+        },
+    },
+
+    ["Warehouse 2"] = {
+        label = "Warehouse 2",
+        hash = `shell_warehouse1`,
+        doorOffset = { x = -8.92, y = 0.04, z = -1.94, h = 275.74, width = 2.0 },
+        stash = {
+            maxweight = 1000000, 
+            slots = 100,
+        },
+        imgs = {
             {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713451551838278/angle2.webp",
-                label = "Angle 2",
+                url = "nui://ps-housing/images/shell_warehouse1.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["Warehouse 3"] = {
+        label = "Warehouse 3",
+        hash = `shell_warehouse2`,
+        doorOffset = { x = -12.57, y = 5.45, z = -3.05, h = 264.92, width = 2.0 },
+        stash = {
+            maxweight = 1000000, 
+            slots = 100,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_warehouse2.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["Warehouse 4"] = {
+        label = "Warehouse 4",
+        hash = `shell_coke1`,
+        doorOffset = { x = -6.36, y = 8.59, z = -1.95, h = 182.88, width = 2.0 },
+        stash = {
+            maxweight = 1000000, 
+            slots = 100,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_coke1.png",
+                label = "Main Room",
+            },
+        },
+    },
+
+    ["Warehouse 5"] = {
+        label = "Warehouse 5",
+        hash = `shell_weed`,
+        doorOffset = { x = 17.73, y = 11.72, z = -3.09, h = 86.32, width = 2.0 },
+        stash = {
+            maxweight = 1000000, 
+            slots = 100,
+        },
+        imgs = {
+            {
+                url = "nui://ps-housing/images/shell_weed.png",
+                label = "Main Room",
             },
         },
     },
@@ -299,21 +731,21 @@ Config.Shells = {
     ["Container"] = {
         label = "Container",
         hash = `container_shell`,
-        doorOffset = { x = 0.05, y = -5.7, z = -0.22, h = 1.7, width = 2.2  },
+        doorOffset = { x = 0.01, y = -5.71, z = -1.20, h = 357.50, width = 2.0 },
         stash = {
             maxweight = 500000, 
             slots = 100,
         },
         imgs = {
             {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713526319497267/container.webp",
-                label = "Container",
+                url = "nui://ps-housing/images/container_shell.png",
+                label = "Main Room",
             },
         },
     },
 
-    ["2 Floor House"] = {
-        label = "2 Floor House",
+    ["House Michael"] = {
+        label = "House Michael",
         hash = `shell_michael`,
         doorOffset = { x = -9.6, y = 5.63, z = -4.07, h = 268.55, width = 2.0  },
         stash = {
@@ -322,86 +754,14 @@ Config.Shells = {
         },
         imgs = {
             {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713596683145267/bathroom.webp",
-                label = "Bathroom",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713597232586777/entry.webp",
-                label = "Entrance",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713597698166844/floor2.webp",
-                label = "Floor 2",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713598201471106/kitchen.webp",
-                label = "Kitchen",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713598734159962/livingroom.webp",
-                label = "Living Room",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713599178752020/room1.webp",
-                label = "Room 1",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713599690448956/room2.webp",
-                label = "Room 2",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713600176996394/room3.webp",
-                label = "Room 3",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713596179816499/room3dresser.webp",
-                label = "Room 3 Dresser",
+                url = "nui://ps-housing/images/shell_michael.png",
+                label = "Main Room",
             },
         },
     },
 
-    ["House 1"] = {
-        label = "House 1",
-        hash = `shell_frankaunt`,
-        doorOffset = { x = -0.34, y = -5.97, z = -0.57, h = 357.23, width = 2.0  },
-        stash = {
-            maxweight = 200000, 
-            slots = 50,
-        },
-        imgs = {
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713982059974656/bathroom.webp",
-                label = "Bathroom",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713982491983942/diningroom.webp",
-                label = "Dining Room",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713982848512030/entry.webp",
-                label = "Entrance",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713983175659530/kitchen.webp",
-                label = "Kitchen",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713983490228285/livingroom.webp",
-                label = "Living Room",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713983821590578/room1.webp",
-                label = "Room 1",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101713984169709690/room2.webp",
-                label = "Room 2",
-            },
-        },
-    },
-
-    ["House 2"] = {
-        label = "House 2",
+    ["House Ranch"] = {
+        label = "House Ranch",
         hash = `shell_ranch`,
         doorOffset = { x = -1.23, y = -5.54, z = -1.1, h = 272.21, width = 2.0  },
         stash = {
@@ -410,108 +770,24 @@ Config.Shells = {
         },
         imgs = {
             {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101714310809518131/entry.webp",
-                label = "Entrance",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101714311228964956/hallway.webp",
-                label = "Hallway",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101714311623213177/kitchen.webp",
-                label = "Kitchen",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101714311988133910/mainarea.webp",
-                label = "Main Area",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101714312394977370/room.webp",
-                label = "Room",
+                url = "nui://ps-housing/images/shell_ranch.png",
+                label = "Main Room",
             },
         },
     },
 
-    ["House 3"] = {
-        label = "House 3",
-        hash = `shell_lester`,
-        doorOffset = { x = -1.61, y = -6.02, z = -0.37, h = 357.7, width = 2.0  },
-        stash = {
-            maxweight = 15000, 
-            slots = 20,
-        },
-        imgs = {
-            {
-                url = "https://i.imgur.com/ddg9zHU.jpeg",
-                label = "Angle 1",
-            },
-            {
-                url = "https://i.imgur.com/4rvkeme.jpeg",
-                label = "Angle 2",
-            },
-            {
-                url = "https://i.imgur.com/4QAcZBp.jpeg",
-                label = "Entrance",
-            },
-        },
-    },
-
-    ["House 4"] = {
-        label = "House 4",
-        hash = `shell_trevor`,
-        doorOffset = { x = 0.2, y = -3.82, z = -0.41, h = 358.4, width = 2.0  },
-        stash = {
-            maxweight = 10000, 
-            slots = 12,
-        },
-        imgs = {
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101714761596543107/bathroom.webp",
-                label = "Bathroom",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101714761994997760/entry.webp",
-                label = "Entrance",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101714762343133227/kitchen.webp",
-                label = "Kitchen",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101714762741588018/livingroom.webp",
-                label = "Living Room",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101714763140042772/room1.webp",
-                label = "Room 1",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101714763500761158/room2.webp",
-                label = "Room 2",
-            },
-        },
-    },
-
-    ["Trailer"] = {
-        label = "Trailer",
+    ["Trailer 1"] = {
+        label = "Trailer 1",
         hash = `shell_trailer`,
-        doorOffset = { x = -1.27, y = -2.08, z = -0.48, h = 358.84, width = 2.0  },
+        doorOffset = { x = -1.44, y = -2.05, z = -1.47, h = 4.00, width = 2.0 },
         stash = {
             maxweight = 10000, 
             slots = 12,
         },
         imgs = {
             {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101714470985809920/entranceandkitchen.webp",
-                label = "Entrance and Kitchen",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101714471329747026/main.webp",
-                label = "Main",
-            },
-            {
-                url = "https://cdn.discordapp.com/attachments/1101313033684394084/1101714471665274980/room1.webp",
-                label = "Room",
+                url = "nui://ps-housing/images/shell_trailer.png",
+                label = "Main Room",
             },
         },
     },

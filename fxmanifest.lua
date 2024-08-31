@@ -39,13 +39,10 @@ server_script {
 
 files {
   'html/**',
-  'stream/starter_shells_k4mb1.ytyp',
-  'stream/lev_apart_shell.ytyp'
+  'images/*.png',
 }
 
 this_is_a_map 'yes'
-data_file 'DLC_ITYP_REQUEST' 'starter_shells_k4mb1.ytyp'
-data_file 'DLC_ITYP_REQUEST' 'lev_apart_shell.ytyp'
 
 -- Fix for 'stuck in black loading screen'
 data_file 'DLC_ITYP_REQUEST' 'x64c:/levels/gta5/interiors/int_props/int_corporate.rpf/int_corporate.ytyp'
